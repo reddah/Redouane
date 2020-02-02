@@ -18,7 +18,7 @@ public class AppTestAide {
 		AideDao aideDao = new AideDao();
 		
 		// Ajout
-		aideDao.ajouterAide(aide);
+		aideDao.ajouter(aide);
 		
 		// Affichage
 		System.out.println("Ajout des aides : ++++++++++++++++++++++++++++++++++++");
@@ -31,8 +31,8 @@ public class AppTestAide {
 		/* ============================================================== */
 		
 		System.out.println("Get by id ++++++++++++++++++++++++++++++++++++++++++++++++++");
-		System.out.println("\t > ID : " + aideDao.getAideById(2).getPage());
-		System.out.println("\t > Contenu : " + aideDao.getAideById(2).getContenu());
+		System.out.println("\t > ID : " + aideDao.getById(2).getPage());
+		System.out.println("\t > Contenu : " + aideDao.getById(2).getContenu());
 		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n");
 		
 		
@@ -41,9 +41,10 @@ public class AppTestAide {
 		/* ============================================================== */
 		
 		System.out.println("UPDATE +++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-		aideDao.modifierAide(3, "Aubin Rossignol");
+		aide = new Aide("Aubin Rossignol");
+		aideDao.modifier(3, aide);
 		System.out.println("\t > Aprés update : ");
-		Aide a = aideDao.getAideById(3);
+		Aide a = aideDao.getById(3);
 		System.out.println("\t\t > id = : " + a.getPage() + ", nom : " + a.getContenu() );
 		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n");
 		
@@ -60,7 +61,7 @@ public class AppTestAide {
 		/* ============================================================== */
 		
 		System.out.println("Get All Aides ===================================");	
-		for (Aide aide1 : aideDao.getAllAide()) {
+		for (Aide aide1 : aideDao.getAll()) {
 			System.out.println("\t > " + aide1.getPage() + "  " + aide1.getContenu());
 		}
 		

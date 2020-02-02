@@ -2,10 +2,16 @@ package com.intiformation.gestionecole.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+
 @MappedSuperclass
-public class Personne implements Serializable {
+public abstract class Personne implements Serializable {
 	/* ____________ Props ____________ */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected int identifiant;
 	protected String motDePasse;
 	protected String nom;
@@ -16,6 +22,19 @@ public class Personne implements Serializable {
 
 	public Personne() {
 		super();
+	}
+
+	public Personne(String nom) {
+		super();
+		this.nom = nom;
+	}
+
+	public Personne(String motDePasse, String nom, String prenom, String email) {
+		super();
+		this.motDePasse = motDePasse;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.email = email;
 	}
 
 	public Personne(int identifiant, String motDePasse, String nom, String prenom, String email) {

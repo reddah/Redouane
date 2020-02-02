@@ -8,38 +8,34 @@ public interface IGestionDao <T> {
 		/* ======================= Ajouter Aide ========================= */
 		/* ============================================================== */
 
-		public boolean ajouterAide(T t);// fin de la méthode ajouterAide()
+		public boolean ajouter(T t);// fin de la méthode ajouterAide()
 
 		/* ============================================================== */
 		/* ======================= Get By IdAide ======================== */
 		/* ============================================================== */
 
-		public T getAideById(int t);// end getAideById()
+		public T getById(int t);// end getAideById()
 
 		/* ============================================================== */
 		/* ======================= Modifier Aide ======================== */
 		/* ============================================================== */
 
-		public boolean modifierAide(int t, T t1);// end modifierAide
+		public boolean modifier(int id, T t1);// end modifierAide
 
 		/* ============================================================== */
 		/* ======================= Supprimer Aide ======================= */
 		/* ============================================================== */
 
-		public boolean supprimerAide(int t);// end supprimerAide
+		public boolean supprimer(int t);// end supprimerAide
 		
 		/* ============================================================== */
 		/* ======================== Get all Aide ======================== */
 		/* ============================================================== */
 
-		public List<T> getAllAide();// Fin de la méthode getAllAide
+		public List<T> getAll();// Fin de la méthode getAllAide
 		
 		
-		/* ============================================================== */
-		/* =================== Get all Contenu de Aide ================== */
-		/* ============================================================== */
-		
-		public List<T> getAllContenuAide();// Fin de la méthode getAllContenuAide
+
 
 	}// Fin de la classe AideDao
 

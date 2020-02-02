@@ -7,19 +7,18 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
-import com.intiformation.gestionecole.entity.Aide;
+import com.intiformation.gestionecole.entity.Personne;
 import com.intiformation.gestionecole.tool.JpaUtil;
 
-public class AideDao implements IGestionDao<Aide>{
-
+public class PersonneDao implements IGestionDao<Personne> {
 	// 1. récup de la l'entityManager à partir de JpaUtil
 	private EntityManager entityManager = JpaUtil.getInstance();
 
 	/* ============================================================== */
-	/* ======================= Ajouter Aide ========================= */
+	/* ======================= Ajouter Personne ========================= */
 	/* ============================================================== */
 	@Override
-	public boolean ajouter(Aide aAide) {
+	public boolean ajouter(Personne aPersonne) {
 
 		EntityTransaction transaction = null;
 		try {
@@ -27,8 +26,8 @@ public class AideDao implements IGestionDao<Aide>{
 			transaction = entityManager.getTransaction();
 			transaction.begin();
 
-			// 2. ajout de l'aide à la bdd via la méthode persist()
-			entityManager.persist(aAide);
+			// 2. ajout de l'personne à la bdd via la méthode persist()
+			entityManager.persist(aPersonne);
 
 			// 3. validation de la transaction avec commit()
 			transaction.commit();
@@ -46,23 +45,23 @@ public class AideDao implements IGestionDao<Aide>{
 
 		} // fin du catch
 		return false;
-	}// fin de la méthode ajouterAide()
+	}// fin de la méthode ajouterPersonne()
 
 	/* ============================================================== */
-	/* ======================= Get By IdAide ======================== */
+	/* ===================== Get By IdPersonne ====================== */
 	/* ============================================================== */
 	@Override
-	public Aide getById(int pIdAide) {
+	public Personne getById(int pIdPersonne) {
 
-		Aide aide = null;
+		Personne personne = null;
 
 		try {
-			Query getByIdQuery = entityManager.createNamedQuery("Aide_getById");
-			getByIdQuery.setParameter("pID", pIdAide);
-			
-			aide = (Aide) getByIdQuery.getSingleResult();
+			Query getByIdQuery = entityManager.createNamedQuery("Personne_getById");
+			getByIdQuery.setParameter("pID", pIdPersonne);
 
-			return aide;
+			personne = (Personne) getByIdQuery.getSingleResult();
+
+			return personne;
 
 		} catch (PersistenceException ex) {
 			ex.printStackTrace();
@@ -72,13 +71,13 @@ public class AideDao implements IGestionDao<Aide>{
 		} // end finally
 
 		return null;
-	}// end getAideById()
+	}// end getPersonneById()
 
 	/* ============================================================== */
-	/* ======================= Modifier Aide ======================== */
+	/* ===================== Modifier Personne ====================== */
 	/* ============================================================== */
 	@Override
-	public boolean modifier(int pIdAide, Aide pAide) {
+	public boolean modifier(int pIdPersonne, Personne pPersonne) {
 
 		EntityTransaction transaction = null;
 
@@ -87,18 +86,23 @@ public class AideDao implements IGestionDao<Aide>{
 			transaction = entityManager.getTransaction();
 			transaction.begin();
 
-			// 3. récup de l'aide à modifier
-			Aide aideUpdate = getById(pIdAide);
+			// 3. récup de l'personne à modifier
+			Personne personneUpdate = getById(pIdPersonne);
 
-			// 4. modif de l'aide
-			aideUpdate.setContenu(pAide.getContenu());
+			// 4. modif de l'personne
 
-			// 5. modif de l'aide dans la bdd via la méthode update()
-			entityManager.merge(aideUpdate);
+			personneUpdate.setIdentifiant(pPersonne.getIdentifiant());
+			personneUpdate.setMotDePasse(pPersonne.getMotDePasse());
+			personneUpdate.setNom(pPersonne.getNom());
+			personneUpdate.setPrenom(pPersonne.getPrenom());
+			personneUpdate.setEmail(pPersonne.getEmail());
+
+			// 5. modif de l'personne dans la bdd via la méthode update()
+			entityManager.merge(personneUpdate);
 
 			// 6. validation de la transaction avec commit()
 			transaction.commit();
-			
+
 			return true;
 		} catch (PersistenceException ex) {
 
@@ -113,13 +117,13 @@ public class AideDao implements IGestionDao<Aide>{
 			// entityManager.close();
 		} // end finally
 		return false;
-	}// end modifierAide
+	}// end modifierPersonne
 
 	/* ============================================================== */
-	/* ======================= Supprimer Aide ======================= */
+	/* ==================== Supprimer Personne ====================== */
 	/* ============================================================== */
 	@Override
-	public boolean supprimer(int pIdAide) {
+	public boolean supprimer(int pIdPersonne) {
 
 		EntityTransaction transaction = null;
 
@@ -127,11 +131,11 @@ public class AideDao implements IGestionDao<Aide>{
 			// 2. ouverture d'une transaction via l'entityManager
 			transaction = entityManager.getTransaction();
 			transaction.begin();
-			// 3. récup de l'aide à modifier
-			Aide aideSupp = getById(pIdAide);
+			// 3. récup de l'personne à modifier
+			Personne personneSupp = getById(pIdPersonne);
 
-			// 4. modif de l'aide dans la bdd via la méthode remove() de l'entityManager
-			entityManager.remove(aideSupp);
+			// 4. modif de l'personne dans la bdd via la méthode remove() de l'entityManager
+			entityManager.remove(personneSupp);
 
 			// 5. validation de la transaction avec commit()
 			transaction.commit();
@@ -150,60 +154,31 @@ public class AideDao implements IGestionDao<Aide>{
 			// entityManager.close();
 		} // end finally
 		return false;
-	}// end supprimerAide
-	
+	}// end supprimerPersonne
+
 	/* ============================================================== */
-	/* ======================== Get all Aide ======================== */
+	/* ===================== Get all Personne ======================= */
 	/* ============================================================== */
 	@Override
-	public List<Aide> getAll() {
+	public List<Personne> getAll() {
 
-		List<Aide> listeAllAides = null;
+		List<Personne> listeAllPersonnes = null;
 
 		try {
-			Query getAllAideQuery = entityManager.createNamedQuery("Aide_getAll");
-			
-			listeAllAides = getAllAideQuery.getResultList();
-			
-			return listeAllAides;
+			Query getAllPersonneQuery = entityManager.createNamedQuery("Personne_getAll");
+
+			listeAllPersonnes = getAllPersonneQuery.getResultList();
+
+			return listeAllPersonnes;
 
 		} catch (PersistenceException ex) {
-				ex.printStackTrace();
+			ex.printStackTrace();
 		} finally {
 			// 7. fermeture de l'entityManager
 			// entityManager.close();
 		} // end finally
 		return null;
 
-	}// Fin de la méthode getAllAide
-	
-	
-	/* ============================================================== */
-	/* =================== Get all Contenu de Aide ================== */
-	/* ============================================================== */
-	
-	public List<String> getAllContenuAide() {
-		List<String> listeAllContenuAides = null;
-		try {
-			Query getAllContenuAideQuery = entityManager.createNamedQuery("Aide_getAllContenu");
-			
-			listeAllContenuAides = getAllContenuAideQuery.getResultList();
-			
-			return listeAllContenuAides;
+	}// Fin de la méthode getAllPersonne
 
-		} catch (PersistenceException ex) {
-			System.out.println("Probleme survenu lors de l'utilisation de la méthode getAllContenuAide ");
-				ex.printStackTrace();
-		} finally {
-			// 7. fermeture de l'entityManager
-			// entityManager.close();
-		} // end finally
-		return null;
-
-
-	}// Fin de la méthode getAllContenuAide
-
-
-
-
-}// Fin de la classe AideDao
+}// Fin de la classe PersonneDao
